@@ -3,161 +3,539 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Espaço Calma - Apoio Emocional</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Teste Interativo de QI e Raciocínio</title>
+  <style>
+    /* --- RESET E ESTILOS GERAIS --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e1e2f 0%, #0d1b2a 100%);
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: rgba(30, 41, 59, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 10;
+    }
+
+    h1, h2, h3 {
+      color: #38bdf8;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* --- BOTOES E INTERAÇÃO --- */
+    .btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(90deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #0369a1 0%, #075985 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(2, 132, 199, 0.4);
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 600px) {
+      .options-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .option-btn {
+      background: #334155;
+      color: #f8fafc;
+      border: 2px solid transparent;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    .option-btn:hover {
+      background: #475569;
+      border-color: #38bdf8;
+    }
+
+    /* --- BARRA DE PROGRESSO E HEADER DO QUIZ --- */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+      color: #94a3b8;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background: #334155;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 25px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #38bdf8;
+      transition: width 0.3s ease;
+    }
+
+    /* --- EINSTEIN FLUTUANTE --- */
+    .einstein-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .speech-bubble {
+      background: #ffffff;
+      color: #0f172a;
+      padding: 12px 16px;
+      border-radius: 18px;
+      border-bottom-right-radius: 2px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      max-width: 200px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+      animation: floatBubble 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    .einstein-avatar {
+      width: 90px;
+      height: 90px;
+      background: #38bdf8;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 50px;
+      user-select: none;
+      animation: floatAvatar 4s ease-in-out infinite;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    @keyframes floatAvatar {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
+    }
+
+    @keyframes floatBubble {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* --- RELATÓRIO FINAL --- */
+    .report-card {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px 0;
+      border: 1px solid #334155;
+    }
+
+    .score-badge {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #38bdf8;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    /* OCULTAR ELEMENTOS */
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Menu de Navegação -->
-  <header>
-    <div class="logo">🌿 Espaço Calma</div>
-    <nav>
-      <ul>
-        <li><a href="#" class="nav-btn active" onclick="showPage('triagem', this)">Como estou?</a></li>
-        <li><a href="#" class="nav-btn" onclick="showPage('educacao', this)">Aprender</a></li>
-        <li><a href="#" class="nav-btn" onclick="showPage('autocuidado', this)">Pausa</a></li>
-        <li><a href="#" class="nav-btn" onclick="showPage('plano', this)">Meu Plano</a></li>
-        <li><a href="#" class="nav-btn" onclick="showPage('ajuda', this)">Ajuda & Crise</a></li>
-        <li><a href="#" class="nav-btn" onclick="showPage('relatorio', this)">Enviar Resumo</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main class="container">
-
-    <!-- AVISO LEGAL E DE LIMITES -->
-    <div class="disclaimer-card">
-      ⚠️ **Aviso Importante:** Este espaço é para acolhimento e autocuidado. Ele **não substitui** acompanhamento psicológico, psiquiátrico ou atendimento de emergência.
+  <!-- CONTAINER PRINCIPAL -->
+  <div class="container">
+    
+    <!-- TELA INICIAL -->
+    <div id="start-screen">
+      <h1>🧠 Teste Oficial de QI & Raciocínio</h1>
+      <p>Bem-vindo ao teste interativo de inteligência. Este teste avalia raciocínio lógico, padrões numéricos e interpretação espacial.</p>
+      <p><strong>Regras:</strong> As perguntas serão apresentadas em ordem totalmente aleatória. Tente responder o mais rápido e com a maior precisão possível.</p>
+      <button class="btn" onclick="startQuiz()">Iniciar Teste Agora</button>
     </div>
 
-    <!-- PÁGINA 1: TRIAGEM LEVE -->
-    <section id="triagem" class="page active">
-      <h2>Como você está se sentindo hoje?</h2>
-      <p>Uma checagem rápida para te ajudar a notar seu estado atual sem julgamentos.</p>
-
-      <form id="form-triagem">
-        <label>Qual emoção se destaca agora?</label>
-        <div class="options">
-          <button type="button" class="tag-btn" onclick="selectTag('emocao', 'Calmo')">Calmo(a)</button>
-          <button type="button" class="tag-btn" onclick="selectTag('emocao', 'Cansado')">Cansado(a)</button>
-          <button type="button" class="tag-btn" onclick="selectTag('emocao', 'Ansioso')">Ansioso(a)</button>
-          <button type="button" class="tag-btn" onclick="selectTag('emocao', 'Triste')">Triste</button>
-          <button type="button" class="tag-btn" onclick="selectTag('emocao', 'Sobrecarregado')">Sobrecarregado(a)</button>
-        </div>
-
-        <label for="sono">Como foi seu sono na última noite?</label>
-        <select id="sono">
-          <option value="Tranquilo e reparador">Tranquilo e reparador</option>
-          <option value="Inquieto ou picado">Inquieto / Acordei várias vezes</option>
-          <option value="Dormi poucas horas">Dormi muito pouco</option>
-          <option value="Dormi além do normal">Dormi mais do que o habitual</option>
-        </select>
-
-        <label for="apoio">Conseguiu conversar com alguém de confiança hoje?</label>
-        <select id="apoio">
-          <option value="Sim, me senti acolhido(a)">Sim, foi bom conversar</option>
-          <option value="Não, mas estou bem sozinho(a)">Não, prefiro o meu momento</option>
-          <option value="Não, me sinto isolado(a)">Não, me sinto isolado(a)</option>
-        </select>
-      </form>
-    </section>
-
-    <!-- PÁGINA 2: PSICOEDUCAÇÃO -->
-    <section id="educacao" class="page">
-      <h2>Entendendo suas Emoções</h2>
-      <div class="cards-grid">
-        <div class="info-card">
-          <h3>🌧️ Ansiedade e Estresse</h3>
-          <p>O estresse é uma resposta natural do corpo para nos proteger de desafios. Quando fica alto por muito tempo, pode causar tensão muscular e aceleração nos batimentos. Reconhecer é o primeiro passo.</p>
-        </div>
-        <div class="info-card">
-          <h3>🌙 A Importância do Sono</h3>
-          <p>Dormir bem ajuda o cérebro a processar experiências do dia. Tente criar um ritual de desaceleração 30 minutos antes de se deitar, desligando telas.</p>
-        </div>
-        <div class="info-card">
-          <h3>🌱 Pequenos Hábitos</h3>
-          <p>Pausas curtas ao longo do dia, beber água e mover o corpo suavemente ajudam a regular o sistema nervoso de forma gradual.</p>
-        </div>
+    <!-- TELA DO QUIZ -->
+    <div id="quiz-screen" class="hidden">
+      <div class="quiz-header">
+        <span id="question-count">Pergunta 1 de 10</span>
+        <span id="timer">Tempo: 00:00</span>
       </div>
-    </section>
-
-    <!-- PÁGINA 3: AUTOCUIDADO -->
-    <section id="autocuidado" class="page">
-      <h2>Pausa e Autocuidado</h2>
       
-      <div class="exercise-box">
-        <h3>🧘 Respirador Guia (4-4-6)</h3>
-        <p>Inspire pelo nariz por 4s, segure por 4s e solte o ar devagar pela boca por 6s.</p>
-        <div class="breath-circle">
-          <span id="breath-text">Respire</span>
-        </div>
-        <button class="action-btn" onclick="startBreathing()">Iniciar 1 minuto</button>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
       </div>
 
-      <div class="journal-box">
-        <h3>📝 Diário de Descarrego</h3>
-        <p>Escreva o que estiver pesando em sua mente agora. Este texto não é salvo em nenhum servidor.</p>
-        <textarea id="diario-texto" placeholder="Escreva livremente aqui..."></textarea>
+      <h2 id="question-title">Carregando pergunta...</h2>
+      
+      <div class="options-grid" id="options-container">
+        <!-- Opções geradas via JavaScript -->
       </div>
-    </section>
+    </div>
 
-    <!-- PÁGINA 4: PLANO DE APOIO PERSONALIZADO -->
-    <section id="plano" class="page">
-      <h2>Seu Plano de Apoio Pessoal</h2>
-      <p>Guarde lembretes do que te faz bem para recorrer em momentos mais difíceis.</p>
-
-      <form id="form-plano">
-        <label for="contato-confianca">Pessoa de confiança para acionar:</label>
-        <input type="text" id="contato-confianca" placeholder="Ex: Amigo(a), familiar, profissional...">
-
-        <label for="atividade-calma">O que costuma te acalmar quando o dia está pesado?</label>
-        <input type="text" id="atividade-calma" placeholder="Ex: Caminhar, escutar música calma, tomar chá...">
-
-        <label for="lugar-seguro">Qual lugar ou ambiente te traz sensação de paz?</label>
-        <input type="text" id="lugar-seguro" placeholder="Ex: Meu quarto, um parque, perto da janela...">
-      </form>
-    </section>
-
-    <!-- PÁGINA 5: REDE DE AJUDA E CRISE -->
-    <section id="ajuda" class="page">
-      <h2>Rede de Suporte e Emergência</h2>
-      <div class="danger-box">
-        <h3>🚨 Precisa de ajuda imediata?</h3>
-        <p>Se você ou alguém que você conhece estiver passando por um momento de crise grave ou pensamentos de autoflagelação, não fique sozinho(a). Busque suporte profissional e imediato:</p>
+    <!-- TELA DE RELATÓRIO FINAL -->
+    <div id="result-screen" class="hidden">
+      <h1>📊 Relatório de Desempenho</h1>
+      
+      <div class="report-card">
+        <p style="text-align:center;">Estimativa de Pontuação de QI:</p>
+        <div class="score-badge" id="iq-score">--</div>
+        <h3 id="iq-category" style="text-align:center; color:#e2e8f0;">Analisando...</h3>
       </div>
 
-      <div class="cards-grid">
-        <div class="info-card highlight">
-          <h3>CVV - Centro de Valorização da Vida</h3>
-          <p>Atendimento gratuito, confidencial e disponível 24 horas por dia por telefone ou chat.</p>
-          <a href="tel:188" class="contact-btn">Ligar 188</a>
+      <div class="report-card">
+        <div class="stat-row">
+          <span>Acertos Totais:</span>
+          <strong id="correct-count">0 / 0</strong>
         </div>
-        <div class="info-card highlight">
-          <h3>SAMU (Emergência Médica)</h3>
-          <p>Para casos de emergência de saúde e crises imediatas.</p>
-          <a href="tel:192" class="contact-btn">Ligar 192</a>
+        <div class="stat-row">
+          <span>Taxa de Precisão:</span>
+          <strong id="accuracy-rate">0%</strong>
         </div>
-        <div class="info-card highlight">
-          <h3>Serviços Locais (CAPS / Posto de Saúde)</h3>
-          <p>Consulte a unidade de saúde mais próxima do seu bairro para atendimento psicológico e em saúde mental continuo.</p>
+        <div class="stat-row">
+          <span>Tempo Total Decorrido:</span>
+          <strong id="total-time">00:00</strong>
+        </div>
+        <div class="stat-row">
+          <span>Tempo Médio por Questão:</span>
+          <strong id="avg-time">0s</strong>
         </div>
       </div>
-    </section>
 
-    <!-- PÁGINA 6: RELATÓRIO VIA WHATSAPP -->
-    <section id="relatorio" class="page">
-      <h2>Enviar Resumo de Acompanhamento</h2>
-      <p>Envie um resumo das suas respostas para você mesmo(a) ou para um profissional de sua confiança para acompanhamento.</p>
+      <p id="detailed-feedback"></p>
 
-      <div class="whatsapp-box">
-        <label for="whatsapp-num">Número do WhatsApp com DDD (apenas números):</label>
-        <input type="text" id="whatsapp-num" placeholder="Ex: 5511999999999">
-        <button class="action-btn wa-btn" onclick="sendWhatsAppReport()">💬 Gerar e Enviar via WhatsApp</button>
-      </div>
-    </section>
+      <button class="btn" onclick="restartQuiz()">Refazer Teste (Novas Perguntas)</button>
+    </div>
 
-  </main>
+  </div>
 
-  <script src="script.js"></script>
+  <!-- EINSTEIN FLUTUANTE E INTERATIVO -->
+  <div class="einstein-container">
+    <div class="speech-bubble" id="einstein-speech">
+      Olá! Eu sou o Albert. Pronto para exercitar o cérebro hoje?
+    </div>
+    <div class="einstein-avatar" onclick="einsteinClick()">
+      👨‍🔬
+    </div>
+  </div>
+
+  <script>
+    /* --- BANCO DE DADOS DE QUESTÕES --- */
+    const questionBank = [
+      {
+        question: "Qual número completa a sequência: 2, 4, 8, 16, 32, [ ? ]",
+        options: ["64", "48", "60", "128"],
+        answer: 0
+      },
+      {
+        question: "Se todos os Zors são Blips e alguns Blips são Flops, podemos afirmar com certeza que alguns Zors são Flops?",
+        options: ["Verdadeiro", "Falso", "Impossível determinar"],
+        answer: 1
+      },
+      {
+        question: "Qual número deve substituir o ponto de interrogação: 3, 6, 11, 18, 27, [ ? ]",
+        options: ["38", "36", "35", "40"],
+        answer: 0
+      },
+      {
+        question: "A palavra 'MESA' está para 'ASEM' assim como '8421' está para:",
+        options: ["1248", "1428", "8241", "2418"],
+        answer: 0
+      },
+      {
+        question: "Um pai tem o triplo da idade do filho. Juntos, eles têm 48 anos. Qual a idade do filho?",
+        options: ["12 anos", "16 anos", "14 anos", "10 anos"],
+        answer: 0
+      },
+      {
+        question: "Qual palavra não pertence ao mesmo grupo das outras?",
+        options: ["Maçã", "Banana", "Cenoura", "Uva"],
+        answer: 2
+      },
+      {
+        question: "Qual o próximo valor na sequência: 1, 1, 2, 3, 5, 8, 13, [ ? ]",
+        options: ["21", "18", "20", "26"],
+        answer: 0
+      },
+      {
+        question: "Se você reordenar as letras 'R-A-P-I-S', terá o nome de um(a):",
+        options: ["País", "Cidade", "Animal", "Oceano"],
+        answer: 1 // PARIS
+      },
+      {
+        question: "Alguns meses têm 31 dias, outros têm 30. Quantos meses têm 28 dias?",
+        options: ["Todos os 12", "Apenas 1", "6 meses", "Depende do ano"],
+        answer: 0
+      },
+      {
+        question: "Se 5 máquinas levam 5 minutos para fazer 5 objetos, quanto tempo 100 máquinas levam para fazer 100 objetos?",
+        options: ["5 minutos", "100 minutos", "50 minutos", "1 minuto"],
+        answer: 0
+      }
+    ];
+
+    /* --- FALA DO EINSTEIN POR CONTEXTO --- */
+    const einsteinQuotes = {
+      start: [
+        "A imaginação é mais importante que o conhecimento!",
+        "Pense com calma e não tenha pressa.",
+        "A mente que se abre a uma nova ideia jamais volta ao seu tamanho original."
+      ],
+      correct: [
+        "Brilhante! Essa foi rápida!",
+        "Exatamente! Você tem um ótimo raciocínio.",
+        "Excelente! Continue com essa energia!",
+        "Muito bem! Um verdadeiro gênio em ação."
+      ],
+      wrong: [
+        "Não se preocupe, errar faz parte do aprendizado!",
+        "O único erro é parar de tentar.",
+        "Respire fundo e foque na próxima!"
+      ],
+      click: [
+        "Sabia que eu adorava tocar violino?",
+        "A física é incrível, mas a sua lógica também!",
+        "E = mc² ! Não se esqueça disso!",
+        "Precisa de um café para concentrar?"
+      ]
+    };
+
+    /* --- VARIÁVEIS DE ESTADO DO JOGO --- */
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timerInterval = null;
+    let secondsElapsed = 0;
+
+    /* --- FUNÇÕES DE UTILIDADE --- */
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function getRandomQuote(category) {
+      const quotes = einsteinQuotes[category];
+      return quotes[Math.floor(Math.random() * quotes.length)];
+    }
+
+    function setEinsteinSpeech(text) {
+      document.getElementById('einstein-speech').innerText = text;
+    }
+
+    function einsteinClick() {
+      setEinsteinSpeech(getRandomQuote('click'));
+    }
+
+    /* --- LÓGICA DO CRONÔMETRO --- */
+    function startTimer() {
+      secondsElapsed = 0;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('timer').innerText = `Tempo: ${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+    }
+
+    /* --- CONTROLE DO TESTE --- */
+    function startQuiz() {
+      document.getElementById('start-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+
+      // Embaralhar perguntas e selecionar até 10
+      currentQuestions = shuffleArray(questionBank).map(q => {
+        // Embaralhar também as opções de cada pergunta mantendo a resposta correta
+        const correctAnswerText = q.options[q.answer];
+        const shuffledOptions = shuffleArray(q.options);
+        const newCorrectIndex = shuffledOptions.indexOf(correctAnswerText);
+        return {
+          question: q.question,
+          options: shuffledOptions,
+          answer: newCorrectIndex
+        };
+      });
+
+      currentQuestionIndex = 0;
+      score = 0;
+      
+      setEinsteinSpeech(getRandomQuote('start'));
+      startTimer();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = currentQuestions[currentQuestionIndex];
+      const total = currentQuestions.length;
+
+      document.getElementById('question-count').innerText = `Pergunta ${currentQuestionIndex + 1} de ${total}`;
+      document.getElementById('progress-bar').style.width = `${((currentQuestionIndex) / total) * 100}%`;
+      document.getElementById('question-title').innerText = q.question;
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        btn.onclick = () => handleAnswer(idx);
+        container.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedIndex) {
+      const q = currentQuestions[currentQuestionIndex];
+
+      if (selectedIndex === q.answer) {
+        score++;
+        setEinsteinSpeech(getRandomQuote('correct'));
+      } else {
+        setEinsteinSpeech(getRandomQuote('wrong'));
+      }
+
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < currentQuestions.length) {
+        loadQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    /* --- GERAÇÃO DO RELATÓRIO FINAL --- */
+    function finishQuiz() {
+      stopTimer();
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+
+      const total = currentQuestions.length;
+      const accuracy = (score / total) * 100;
+      
+      // Cálculo estimado de QI baseado em pontuação e tempo médio
+      const avgTimePerQuestion = secondsElapsed / total;
+      let baseIQ = 80 + (score * 5); // Base entre 80 e 130
+      
+      // Bônus/Penalidade por tempo (se responder rápido e certo)
+      if (accuracy >= 70 && avgTimePerQuestion < 10) {
+        baseIQ += 5;
+      }
+
+      // Categoria de inteligência
+      let category = "";
+      let feedback = "";
+
+      if (baseIQ >= 120) {
+        category = "Raciocínio Superior / Avançado 🌟";
+        feedback = "Você demonstrou uma excelente capacidade de resolução de problemas, identificação de padrões e agilidade mental!";
+      } else if (baseIQ >= 100) {
+        category = "Média Elevada 🧠";
+        feedback = "Seu raciocínio lógico é forte e eficiente. Com um pouco mais de treino, você alcançará níveis ainda mais altos!";
+      } else {
+        category = "Em Desenvolvimento 🌱";
+        feedback = "Bom trabalho ao completar o teste! Lembre-se de que a lógica é uma habilidade que melhora com prática contínua.";
+      }
+
+      // Formatar tempos
+      const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+      const secs = String(secondsElapsed % 60).padStart(2, '0');
+
+      document.getElementById('iq-score').innerText = baseIQ;
+      document.getElementById('iq-category').innerText = category;
+      document.getElementById('correct-count').innerText = `${score} de ${total}`;
+      document.getElementById('accuracy-rate').innerText = `${accuracy.toFixed(0)}%`;
+      document.getElementById('total-time').innerText = `${mins}:${secs}`;
+      document.getElementById('avg-time').innerText = `${avgTimePerQuestion.toFixed(1)}s`;
+      document.getElementById('detailed-feedback').innerText = feedback;
+
+      setEinsteinSpeech("Sensacional! Veja o seu relatório completo na tela.");
+    }
+
+    function restartQuiz() {
+      startQuiz();
+    }
+  </script>
 </body>
 </html>
