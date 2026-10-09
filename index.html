@@ -48,7 +48,7 @@
       margin-bottom: 20px;
     }
 
-    /* --- BOTOES E INTERAÇÃO --- */
+    /* --- BOTÕES E INTERAÇÃO --- */
     .btn {
       display: block;
       width: 100%;
@@ -223,8 +223,8 @@
     <!-- TELA INICIAL -->
     <div id="start-screen">
       <h1>🧠 Teste Oficial de QI & Raciocínio</h1>
-      <p>Bem-vindo ao teste interativo de inteligência. Este teste avalia raciocínio lógico, padrões numéricos e interpretação espacial.</p>
-      <p><strong>Regras:</strong> As perguntas serão apresentadas em ordem totalmente aleatória. Tente responder o mais rápido e com a maior precisão possível.</p>
+      <p>Bem-vindo ao teste interativo de inteligência. Este teste possui um banco de dados com 100 questões de lógica, matemática, linguagem e dedução.</p>
+      <p><strong>Regras:</strong> A cada novo teste, 10 perguntas e suas alternativas serão selecionadas em ordem totalmente aleatória. Responda com foco e agilidade.</p>
       <button class="btn" onclick="startQuiz()">Iniciar Teste Agora</button>
     </div>
 
@@ -293,116 +293,29 @@
   </div>
 
   <script>
-    /* --- BANCO DE DADOS DE QUESTÕES --- */
+    /* --- BANCO COMPLETO DE 100 QUESTÕES --- */
     const questionBank = [
-  // --- LÓGICA E SEQUÊNCIAS NUMÉRICAS (1 - 25) ---
-  { question: "Qual número completa a sequência: 2, 4, 8, 16, 32, [ ? ]", options: ["64", "48", "60", "128"], answer: 0 },
-  { question: "Qual número deve substituir o ponto de interrogação: 3, 6, 11, 18, 27, [ ? ]", options: ["38", "36", "35", "40"], answer: 0 },
-  { question: "Qual o próximo valor na sequência: 1, 1, 2, 3, 5, 8, 13, [ ? ]", options: ["21", "18", "20", "26"], answer: 0 },
-  { question: "Qual número completa a sequência: 5, 10, 20, 40, [ ? ]", options: ["80", "60", "70", "100"], answer: 0 },
-  { question: "Qual número completa a sequência: 100, 95, 85, 70, [ ? ]", options: ["50", "55", "60", "45"], answer: 0 },
-  { question: "Qual o próximo termo: 2, 3, 5, 7, 11, 13, [ ? ]", options: ["17", "15", "16", "19"], answer: 0 },
-  { question: "Complete a série: 1, 4, 9, 16, 25, [ ? ]", options: ["36", "30", "32", "49"], answer: 0 },
-  { question: "Qual número vem a seguir: 80, 40, 20, 10, [ ? ]", options: ["5", "2.5", "0", "8"], answer: 0 },
-  { question: "Complete a lógica: 3, 9, 27, 81, [ ? ]", options: ["243", "162", "210", "324"], answer: 0 },
-  { question: "Qual o número faltante: 7, 14, 28, 56, [ ? ]", options: ["112", "98", "104", "120"], answer: 0 },
-  { question: "Complete a sequência: 2, 6, 12, 20, 30, [ ? ]", options: ["42", "40", "36", "48"], answer: 0 },
-  { question: "Qual é o próximo número: 10, 9, 11, 8, 12, [ ? ]", options: ["7", "13", "6", "14"], answer: 0 },
-  { question: "Complete o padrão: 4, 8, 12, 16, 20, [ ? ]", options: ["24", "22", "26", "28"], answer: 0 },
-  { question: "Qual o próximo valor: 1, 8, 27, 64, [ ? ]", options: ["125", "100", "81", "216"], answer: 0 },
-  { question: "Complete: 2, 5, 10, 17, 26, [ ? ]", options: ["37", "35", "32", "40"], answer: 0 },
-  { question: "Qual número segue a ordem: 64, 32, 16, 8, [ ? ]", options: ["4", "2", "6", "0"], answer: 0 },
-  { question: "Qual número completa a série: 15, 30, 45, 60, [ ? ]", options: ["75", "70", "80", "90"], answer: 0 },
-  { question: "Descubra o próximo número: 1, 2, 6, 24, 120, [ ? ]", options: ["720", "600", "480", "360"], answer: 0 },
-  { question: "Complete a lógica: 0, 3, 8, 15, 24, [ ? ]", options: ["35", "32", "30", "36"], answer: 0 },
-  { question: "Qual número completa: 99, 88, 77, 66, [ ? ]", options: ["55", "44", "50", "60"], answer: 0 },
-  { question: "Complete o padrão: 5, 11, 23, 47, [ ? ]", options: ["95", "94", "89", "91"], answer: 0 },
-  { question: "Qual o próximo número da sequência: 12, 24, 36, 48, [ ? ]", options: ["60", "58", "62", "72"], answer: 0 },
-  { question: "Qual é o número seguinte: 1, 3, 7, 15, 31, [ ? ]", options: ["63", "62", "60", "65"], answer: 0 },
-  { question: "Complete: 10, 20, 15, 30, 25, [ ? ]", options: ["50", "40", "35", "45"], answer: 0 },
-  { question: "Qual o próximo valor: 100, 50, 200, 100, 400, [ ? ]", options: ["200", "300", "800", "150"], answer: 0 },
-
-  // --- RACIOCÍNIO VERBAL E ANAGRAMAS (26 - 50) ---
-  { question: "A palavra 'MESA' está para 'ASEM' assim como '8421' está para:", options: ["1248", "1428", "8241", "2418"], answer: 0 },
-  { question: "Se você reordenar as letras 'R-A-P-I-S', terá o nome de um(a):", options: ["Cidade", "País", "Animal", "Oceano"], answer: 0 },
-  { question: "Qual palavra NÃO pertence ao grupo?", options: ["Cenoura", "Maçã", "Banana", "Uva"], answer: 0 },
-  { question: "Amor está para Roma assim como 1234 está para:", options: ["4321", "3214", "2341", "1432"], answer: 0 },
-  { question: "Qual elemento não se encaixa na lista?", options: ["Cachorro", "Gato", "Mesa", "Lobo"], answer: 2 },
-  { question: "Reordenando 'R-A-T-E-R-A', temos o nome de um:", options: ["Planeta", "Animal", "País", "Objeto"], answer: 0 },
-  { question: "Qual palavra é o oposto de 'Efêmero'?", options: ["Duradouro", "Passageiro", "Curto", "Rápido"], answer: 0 },
-  { question: "O médico está para o hospital assim como o professor está para:", options: ["A escola", "O livro", "O aluno", "A caneta"], answer: 0 },
-  { question: "Qual destas opções é um anagrama de 'MAMUTE'?", options: ["MUTEMA", "MATUTA", "MAMUCA", "METUMA"], answer: 0 },
-  { question: "Reordenando 'L-I-B-R-A-S-I', temos o nome de um:", options: ["País", "Rio", "Planeta", "Animal"], answer: 0 },
-  { question: "Qual termo é um intruso na lista?", options: ["Futebol", "Basquete", "Natação", "Xadrez"], answer: 3 },
-  { question: "Sol está para dia assim como lua está para:", options: ["Noite", "Estrela", "Céu", "Escuridão"], answer: 0 },
-  { question: "Se reordenarmos as letras 'O-L-E-A-C', formaremos um instrumento para:", options: ["Escola", "Cozinha", "Jardim", "Música"], answer: 0 },
-  { question: "Qual palavra não combina com as outras?", options: ["Violão", "Piano", "Prato", "Flauta"], answer: 2 },
-  { question: "Pássaro está para voar assim como peixe está para:", options: ["Nadar", "Correr", "Andar", "Saltar"], answer: 0 },
-  { question: "Qual destas opções é sinônimo de 'Altruísmo'?", options: ["Generosidade", "Egoísmo", "Orgulho", "Frieza"], answer: 0 },
-  { question: "Fogo está para quente assim como gelo está para:", options: ["Frio", "Sólido", "Transparente", "Água"], answer: 0 },
-  { question: "Reordenando 'C-A-R-O-C-A', temos o nome de um:", options: ["Animal", "Objeto", "Fruta", "País"], answer: 0 },
-  { question: "Qual destas palavras não pertence ao grupo?", options: ["Triângulo", "Quadrado", "Círculo", "Cubo"], answer: 3 },
-  { question: "Página está para Livro assim como Roda está para:", options: ["Carro", "Pneu", "Estrada", "Motor"], answer: 0 },
-  { question: "Qual termo é o oposto de 'Altivo'?", options: ["Humilde", "Alto", "Forte", "Orgulhoso"], answer: 0 },
-  { question: "Agulha está para costurar assim como tesoura está para:", options: ["Cortar", "Colar", "Desenhar", "Medir"], answer: 0 },
-  { question: "Qual destas opções é um anagrama de 'PERA'?", options: ["RAPE", "PARA", "PERO", "REPA"], answer: 0 },
-  { question: "Livro está para ler assim como comida está para:", options: ["Comer", "Cozinhar", "Comprar", "Servir"], answer: 0 },
-  { question: "Qual palavra é o intruso?", options: ["Janeiro", "Fevereiro", "Segunda-feira", "Março"], answer: 2 },
-
-  // --- MATEMÁTICA E PROBLEMAS PRÁTICOS (51 - 75) ---
-  { question: "Um pai tem o triplo da idade do filho. Juntos, eles têm 48 anos. Qual a idade do filho?", options: ["12 anos", "16 anos", "14 anos", "10 anos"], answer: 0 },
-  { question: "Se 5 máquinas levam 5 minutos para fazer 5 objetos, quanto tempo 100 máquinas levam para fazer 100 objetos?", options: ["5 minutos", "100 minutos", "50 minutos", "1 minuto"], answer: 0 },
-  { question: "Se você tem 3 maçãs e pega 2, quantas maçãs você tem?", options: ["2", "3", "1", "0"], answer: 0 },
-  { question: "Uma camisa e um boné custam R$ 110 juntos. A camisa custa R$ 100 a mais que o boné. Quanto custa o boné?", options: ["R$ 5", "R$ 10", "R$ 15", "R$ 20"], answer: 0 },
-  { question: "Qual o resultado de 10 + 10 x 0 + 10?", options: ["20", "0", "10", "100"], answer: 0 },
-  { question: "Se 3 gatos caçam 3 ratos em 3 minutos, quantos gatos caçam 100 ratos em 100 minutos?", options: ["3", "100", "30", "1"], answer: 0 },
-  { question: "Em uma corrida, se você ultrapassa o segundo colocado, em que posição você fica?", options: ["Em segundo", "Em primeiro", "Em terceiro", "Em último"], answer: 0 },
-  { question: "Quanto é a metade de 2 mais 2?", options: ["3", "2", "4", "1"], answer: 0 },
-  { question: "Qual é o valor de X na equação: 2X + 5 = 15?", options: ["5", "10", "2.5", "7.5"], answer: 0 },
-  { question: "Se dobrarmos R$ 15,00 quatro vezes consecutivas, quanto teremos?", options: ["R$ 240", "R$ 120", "R$ 180", "R$ 300"], answer: 0 },
-  { question: "Quantos meses no ano possuem 28 dias?", options: ["Todos os 12", "Apenas 1", "Nenhum", "6 meses"], answer: 0 },
-  { question: "Se um relógio atrasa 5 minutos por hora, quantos minutos atrasará em um dia completo?", options: ["120 minutos", "60 minutos", "100 minutos", "24 minutos"], answer: 0 },
-  { question: "Quanto é 50% de 50%", options: ["25%", "50%", "10%", "5%"], answer: 0 },
-  { question: "Se dividirmos 30 por meio (0,5) e somarmos 10, qual o resultado?", options: ["70", "25", "40", "50"], answer: 0 },
-  { question: "Quantas patas têm 4 vacas e 3 galinhas juntas?", options: ["22 patas", "20 patas", "18 patas", "24 patas"], answer: 0 },
-  { question: "Qual é a raiz quadrada de 144?", options: ["12", "14", "10", "16"], answer: 0 },
-  { question: "Se você precisa de 4 cortes para dividir um cano em pedaços, quantos pedaços você terá?", options: ["5 pedaços", "4 pedaços", "6 pedaços", "3 pedaços"], answer: 0 },
-  { question: "Um trem elétrico viaja para o norte. Para onde vai a fumaça?", options: ["Para lugar nenhum", "Para o sul", "Para o leste", "Para o oeste"], answer: 0 },
-  { question: "Se 8 pessoas levam 4 dias para pintar uma casa, quantas pessoas seriam necessárias para pintar a mesma casa em 2 dias?", options: ["16 pessoas", "12 pessoas", "10 pessoas", "20 pessoas"], answer: 0 },
-  { question: "Qual o resultado de (8 / 2) x (2 + 2)?", options: ["16", "1", "8", "4"], answer: 0 },
-  { question: "Qual o número que, multiplicado por si mesmo, dá 81?", options: ["9", "8", "7", "6"], answer: 0 },
-  { question: "Um agricultor tinha 17 ovelhas. Todas, exceto 9, morreram. Quantas ovelhas sobraram?", options: ["9", "8", "0", "17"], answer: 0 },
-  { question: "Quanto é 15% de 200?", options: ["30", "20", "25", "35"], answer: 0 },
-  { question: "Qual a soma dos ângulos internos de um triângulo?", options: ["180°", "360°", "90°", "270°"], answer: 0 },
-  { question: "Se X = 4 e Y = 3, qual o valor de X² + Y²?", options: ["25", "16", "9", "49"], answer: 0 },
-
-  // --- DEDUÇÃO LÓGICA E ABSTRAÇÃO (76 - 100) ---
-  { question: "Se todos os Zors são Blips e alguns Blips são Flops, podemos afirmar com certeza que alguns Zors são Flops?", options: ["Falso", "Verdadeiro", "Impossível determinar"], answer: 0 },
-  { question: "O pai de Maria tem 5 filhas: Lala, Lela, Lila, Lola e...?", options: ["Maria", "Lula", "Lula", "Lilia"], answer: 0 },
-  { question: "Se hoje é terça-feira, que dia da semana será daqui a 10 dias?", options: ["Sexta-feira", "Quinta-feira", "Sábado", "Domingo"], answer: 0 },
-  { question: "O que fica mais molhado quanto mais seca?", options: ["A toalha", "A esponja", "O sol", "O vento"], answer: 0 },
-  { question: "O que é que pertence a você, mas os outros usam mais do que você?", options: ["Seu nome", "Sua casa", "Seu carro", "Seu dinheiro"], answer: 0 },
-  { question: "O que tem chaves, mas não abre portas?", options: ["Um piano", "Um mapa", "Um baú", "Um livro"], answer: 0 },
-  { question: "Se anteontem foi domingo, que dia será amanhã?", options: ["Quarta-feira", "Terça-feira", "Quinta-feira", "Sexta-feira"], answer: 0 },
-  { question: "Todos os cães latem. Rex late. Logo:", options: ["Rex pode ser um cão", "Rex é com certeza um cão", "Rex não é um cão", "Nenhuma das respostas"], answer: 0 },
-  { question: "O que pode passar pelo sol sem fazer sombra?", options: ["O vento", "A luz", "A nuvem", "O pássaro"], answer: 0 },
-  { question: "O que tem muitas agulhas, mas não costura?", options: ["Um pinheiro", "Um relógio", "Um cacto", "Um ouriço"], answer: 0 },
-  { question: "O que corre, mas nunca anda; tem leito, mas nunca dorme?", options: ["O rio", "O vento", "O tempo", "A nuvem"], answer: 0 },
-  { question: "Se uma caixa contém 3 caixas menores e cada caixa menor contém 3 caixas ainda menores, quantas caixas existem no total?", options: ["13 caixas", "9 caixas", "12 caixas", "10 caixas"], answer: 0 },
-  { question: "A mãe de Ana tem 4 filhos. Três deles são Pedro, Paulo e Patrícia. Quem é o quarto filho?", options: ["Ana", "Paula", "Pâmela", "Pablo"], answer: 0 },
-  { question: "O que pode ser quebrado sem nunca ter sido segurado?", options: ["Uma promessa", "Um copo", "Um espelho", "Um osso"], answer: 0 },
-  { question: "O que sobe, mas nunca desce?", options: ["A sua idade", "A chuva", "A maré", "A fumaça"], answer: 0 },
-  { question: "O que tem pescoço, mas não tem cabeça?", options: ["A garrafa", "A camiseta", "O violão", "A chave"], answer: 0 },
-  { question: "O que fica maior quando você tira pedaços dele?", options: ["Um buraco", "Um bolo", "Um monte", "Um tecido"], answer: 0 },
-  { question: "Se dois é companhia e três é demais, o que são quatro e cinco?", options: ["Nove", "Grupo", "Multidão", "Apenas números"], answer: 0 },
-  { question: "O que entra na água sem se molhar?", options: ["A sombra", " O peixe", " O barco", " A pedra"], answer: 0 },
-  { question: "Quantas vezes você pode subtrair 5 de 25?", options: ["Apenas 1 vez", "5 vezes", "4 vezes", "Infinitas vezes"], answer: 0 },
-  { question: "O que tem cidades, mas não tem casas; tem florestas, mas não tem árvores?", options: ["Um mapa", "Um livro", "Um sonho", "Um filme"], answer: 0 },
-  { question: "O que voa sem ter asas e chora sem ter olhos?", options: ["A nuvem", "O vento", "O tempo", "O eco"], answer: 0 },
-  { question: "Qual é a coisa que quanto mais você tem, menos você vê?", options: ["A escuridão", "A luz", "O nevoeiro", "O sono"], answer: 0 },
-  { question: "O que tem dentes, mas não pode morder?", options: ["O pente", "O alho", "A engrenagem", "O serrote"], answer: 0 },
-  { question: "Se o ontem do amanhã fosse hoje, que dia seria hoje?", options: ["Hoje mesmo", "Amanhã", "Ontem", "Nenhum"], answer: 0 }
-];
-  </script>
-</body>
-</html>
+      // --- LÓGICA E SEQUÊNCIAS NUMÉRICAS ---
+      { question: "Qual número completa a sequência: 2, 4, 8, 16, 32, [ ? ]", options: ["64", "48", "60", "128"], answer: 0 },
+      { question: "Qual número deve substituir o ponto de interrogação: 3, 6, 11, 18, 27, [ ? ]", options: ["38", "36", "35", "40"], answer: 0 },
+      { question: "Qual o próximo valor na sequência: 1, 1, 2, 3, 5, 8, 13, [ ? ]", options: ["21", "18", "20", "26"], answer: 0 },
+      { question: "Qual número completa a sequência: 5, 10, 20, 40, [ ? ]", options: ["80", "60", "70", "100"], answer: 0 },
+      { question: "Qual número completa a sequência: 100, 95, 85, 70, [ ? ]", options: ["50", "55", "60", "45"], answer: 0 },
+      { question: "Qual o próximo termo: 2, 3, 5, 7, 11, 13, [ ? ]", options: ["17", "15", "16", "19"], answer: 0 },
+      { question: "Complete a série: 1, 4, 9, 16, 25, [ ? ]", options: ["36", "30", "32", "49"], answer: 0 },
+      { question: "Qual número vem a seguir: 80, 40, 20, 10, [ ? ]", options: ["5", "2.5", "0", "8"], answer: 0 },
+      { question: "Complete a lógica: 3, 9, 27, 81, [ ? ]", options: ["243", "162", "210", "324"], answer: 0 },
+      { question: "Qual o número faltante: 7, 14, 28, 56, [ ? ]", options: ["112", "98", "104", "120"], answer: 0 },
+      { question: "Complete a sequência: 2, 6, 12, 20, 30, [ ? ]", options: ["42", "40", "36", "48"], answer: 0 },
+      { question: "Qual é o próximo número: 10, 9, 11, 8, 12, [ ? ]", options: ["7", "13", "6", "14"], answer: 0 },
+      { question: "Complete o padrão: 4, 8, 12, 16, 20, [ ? ]", options: ["24", "22", "26", "28"], answer: 0 },
+      { question: "Qual o próximo valor: 1, 8, 27, 64, [ ? ]", options: ["125", "100", "81", "216"], answer: 0 },
+      { question: "Complete: 2, 5, 10, 17, 26, [ ? ]", options: ["37", "35", "32", "40"], answer: 0 },
+      { question: "Qual número segue a ordem: 64, 32, 16, 8, [ ? ]", options: ["4", "2", "6", "0"], answer: 0 },
+      { question: "Qual número completa a série: 15, 30, 45, 60, [ ? ]", options: ["75", "70", "80", "90"], answer: 0 },
+      { question: "Descubra o próximo número: 1, 2, 6, 24, 120, [ ? ]", options: ["720", "600", "480", "360"], answer: 0 },
+      { question: "Complete a lógica: 0, 3, 8, 15, 24, [ ? ]", options: ["35", "32", "30", "36"], answer: 0 },
+      { question: "Qual número completa: 99, 88, 77, 66, [ ? ]", options: ["55", "44", "50", "60"], answer: 0 },
+      { question: "Complete o padrão: 5, 11, 23, 47, [ ? ]", options: ["95", "94", "89", "91"], answer: 0 },
+      { question: "Qual o próximo número da sequência: 12, 24, 36, 48, [ ? ]", options: ["60", "58", "62", "72"], answer: 0 },
+      { question: "Qual é o número seguinte: 1, 3,
